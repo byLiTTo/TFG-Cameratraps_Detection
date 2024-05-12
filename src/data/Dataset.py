@@ -1,10 +1,13 @@
 import math
+import os
+import platform
 
 import numpy as np
 import pandas as pd
 from sklearn.utils import shuffle
 
 
+# ----------------------------------------------------------------------------------------------------------------------
 def load_from_csv(path, sep=";", encoding="utf-8"):
     """
     Load data from a CSV file.
@@ -61,6 +64,7 @@ def crop_dataset(dataset, number_of_samples):
     return dataset
 
 
+# ----------------------------------------------------------------------------------------------------------------------
 def convert_to_binary(dataset, negative_nomenclature, positive_nomenclature):
     """
     Convert the labels of the dataset to binary.
@@ -98,6 +102,7 @@ def convert_to_binary(dataset, negative_nomenclature, positive_nomenclature):
     return dataset
 
 
+# ----------------------------------------------------------------------------------------------------------------------
 def dataset_to_csv(dataset, csv_path, index=False, sep=";"):
     """
     Save the dataset to a CSV file.
@@ -117,6 +122,7 @@ def dataset_to_csv(dataset, csv_path, index=False, sep=";"):
         print(f"Ocurrió un error al guardar el conjunto de datos: {e}")
 
 
+# ----------------------------------------------------------------------------------------------------------------------
 def split_dataset(dataset, percentaje_train, percentaje_val, percentaje_test):
     """
     Split the dataset into training, validation, and test sets.
@@ -186,3 +192,34 @@ def split_dataset(dataset, percentaje_train, percentaje_val, percentaje_test):
         return None, None, None
 
     return train_set, val_set, test_set
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+def convert_csv_to_abstract(dataset, dataset_dir):
+    """
+    Converts the file paths in the dataset to absolute paths by joining them with the dataset directory.
+
+    Args:
+        dataset (pandas.DataFrame): The dataset containing the file paths.
+        dataset_dir (str): The directory where the dataset is located.
+
+    Returns:
+        pandas.DataFrame: The dataset with the updated file paths.
+    """
+    try:
+        if not isinstance(dataset, pd.DataFrame):
+            raise TypeError("dataset debe ser un DataFrame de pandas.")
+        if not isinstance(dataset_dir, str):
+            raise TypeError("dataset_dir debe ser una cadena de texto.")
+
+        dataset.loc[:, "file_name"] = dataset["file_name"].apply(
+            lambda x: dataset_dir + x.replace("/", "\\")
+            if platform.system() == "Windows"
+            else dataset_dir + x.replace("\\", "/")
+        )
+
+    except Exception as e:
+        print(f"Ocurrió un error: {e}")
+        return None
+
+    return dataset

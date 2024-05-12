@@ -3,4 +3,7 @@ models
 resources
 
 # Ficheros que no se quieren incluir en los commits
-.DS_Store__pycache__/
+.DS_Store
+
+# Ficheros temporales de python
+__pycache__/

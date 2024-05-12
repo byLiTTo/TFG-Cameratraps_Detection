@@ -1,0 +1,6 @@
+# Carpetas que no se quiere incluir en los commits
+models
+resources
+
+# Ficheros que no se quieren incluir en los commits
+.DS_Store

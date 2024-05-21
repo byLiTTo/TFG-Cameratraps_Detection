@@ -33,8 +33,8 @@ def generate_json(results, output_dir):
         name = datetime.datetime.utcnow().strftime("%Y-%m-%d_%H-%M")
         file_name = name + ".json"
 
-        os.makedirs((output_dir + os.sep + "registry"), exist_ok=True)
-        output_file = output_dir + os.sep + "registry" + os.sep + file_name
+        # os.makedirs((output_dir + os.sep + "registry"), exist_ok=True)
+        output_file = output_dir + os.sep + file_name
 
         with open(output_file, "w") as f:
             json.dump(final_output, f, indent=1)
